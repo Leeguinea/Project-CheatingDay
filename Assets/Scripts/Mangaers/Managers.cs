@@ -1,16 +1,26 @@
 using UnityEngine;
 
+/*
+ * [용도]
+ * 게임 시스템 관리
+ * [역할]
+ * 1. 싱글톤 패턴 사용 (Managers.Instance로 접근 가능)
+ */
 public class Managers : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    static Managers _instance; //유일성
+    static Managers Instance {  get { return _instance; } }
+
+    InputManager _input = new InputManager();
+    public static InputManager Input { get { return Instance._input; } }
+
     void Start()
     {
         
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        _input.Update();
     }
 }
