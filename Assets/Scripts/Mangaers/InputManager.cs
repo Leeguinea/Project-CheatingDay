@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 
 /*
  * [용도]
@@ -6,13 +7,13 @@ using UnityEngine;
  * [역할]
  * 1. 입력을 받는게 아닌 받았다는 신호를 전달함.
  */
-public class InputManagers : MonoBehaviour
+public class InputManager
 {
     public Action KeyAction = null;
 
-    void void OnUpdate()
+    public void OnUpdate()
     {
-        if (Input.anyKey == false)
+        if(Input.anyKey == false)
             return;
 
         if(KeyAction != null)
