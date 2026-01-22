@@ -5,6 +5,7 @@ using UnityEngine;
  * 게임 시스템 관리
  * [역할]
  * 1. 싱글톤 패턴 사용 (Managers.Instance로 접근 가능)
+ * 2. 
  */
 public class Managers : MonoBehaviour
 {
