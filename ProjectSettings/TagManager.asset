@@ -4,8 +4,8 @@
 TagManager:
   serializedVersion: 3
   tags:
-  - GoodFood
-  - BadFood
+  - Target
+  - Avoid
   layers:
   - Default
   - TransparentFX

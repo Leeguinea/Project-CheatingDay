@@ -1,5 +1,5 @@
 using System.Collections;
-using TMPro.EditorUtilities;
+using TMPro;
 using UnityEngine;
 
 /*
@@ -16,9 +16,15 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     float _speed = 10.0f;
 
-    CharacterController _controller;
+    [SerializeField]
+    int _score = 0;
 
-    bool _isLogSent = false;
+
+    [SerializeField]
+    TextMeshProUGUI _scoreText;  //텍스트를 담는 바구니.
+
+
+    CharacterController _controller;
 
     void Start()
     {
@@ -32,6 +38,8 @@ public class PlayerController : MonoBehaviour
         Managers.Input.KeyAction += OnKeyboard;
 
         StartCoroutine(CoCheckFoods());
+
+        UpdateScoreUI();
     }
 
     void Update()
@@ -84,49 +92,49 @@ public class PlayerController : MonoBehaviour
         }        
     }
 
-    //[트리거-아이템]
-    void OnTriggerEnter(Collider other)
+    //UI에 점수 표시 갱신
+    void UpdateScoreUI()
     {
-        if(other.gameObject.name == "Food")
-        {
-            Debug.Log($"{other.gameObject.name} 음식을 먹었다.");
-            Destroy(other.gameObject);
-        }
+        if (_scoreText != null)
+            _scoreText.text = $"Score: {_score}";
     }
 
+
+    //[음식과 캐릭터 상호작용]
     void CheckFallinFoods()
     {
         // 1. 레이저 발사 위치와 방향 설정
         Vector3 rayStart = transform.position + Vector3.up * 1.5f;
         Vector3 look = Vector3.up;
+        float distance = 1f;
         int mask = 1 << 8; // Food 레이어
 
-        
-        RaycastHit hit;
-        if (Physics.Raycast(rayStart, look, out hit, 10f, mask))
-        {
-            // 3. 중복 로그 방지 장치
-            if (!_isLogSent)
-            {
-                if (hit.collider.CompareTag("BadFood"))
-                {
-                    Debug.Log("Detected: BadFood");
-                }
-                else if (hit.collider.CompareTag("GoodFood"))
-                {
-                    Debug.Log("Detected: GoodFood");
-                }
+        Debug.DrawRay(rayStart, look * distance, Color.red, 0.1f);
 
-                _isLogSent = true;
+        RaycastHit hit;
+        //레이저가 mask를 감지하면
+        if (Physics.Raycast(rayStart, look, out hit, 1f, mask))
+        {
+            //태그 확인 후 파괴
+            if (hit.collider.CompareTag("Target"))
+            {
+                _score += 10;
+                Debug.Log($"Yum! 현재 점수: {_score}");
+                UpdateScoreUI(); //점수가 변하면 UI도 갱신
+                Destroy(hit.collider.gameObject);
+            }
+            else if (hit.collider.CompareTag("Avoid"))
+            {
+                _score -= Mathf.Max(0, _score - 5);  //점수가 음수가 되지않게
+                Debug.Log($"Oops! 현재 점수: {_score}");
+                UpdateScoreUI(); //점수가 변하면 UI도 갱신
+                Destroy(hit.collider.gameObject);
             }
         }
-        else
-        {
-            // 4. 감지된 게 없으면 로그를 다시 보낼 수 있게 리셋
-            _isLogSent = false;
-        }
+
     }
 
+    
 
 
 }
