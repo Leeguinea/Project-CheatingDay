@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        // 프레임을 60으로 고정합니다. (에디터 UI 먹통 방지)
+        // 프레임을 60으로 고정합니다. //나중에 삭제 요청 
         Application.targetFrameRate = 60;
 
         _controller = GetComponent<CharacterController>();
@@ -37,22 +37,7 @@ public class PlayerController : MonoBehaviour
         Managers.Input.KeyAction -= OnKeyboard;
         Managers.Input.KeyAction += OnKeyboard;
 
-        StartCoroutine(CoCheckFoods());
-
         UpdateScoreUI();
-    }
-
-    void Update()
-    {
-    }
-
-    IEnumerator CoCheckFoods()
-    {
-        while (true)
-        {
-            CheckFallinFoods();
-            yield return new WaitForSeconds(0.1f);
-        }
     }
 
     //InputManager가 매프레임마다 함수를 대신 호출해줌.
@@ -83,15 +68,6 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    //[캐릭터 콜라이더]
-    void OnControllerColliderHit(ControllerColliderHit hit)
-    {
-        if(hit.gameObject.name == "Food")
-        {
-            Debug.Log($"충돌한 대상은 {hit.gameObject.name}이다.");
-        }        
-    }
-
     //UI에 점수 표시 갱신
     void UpdateScoreUI()
     {
@@ -99,42 +75,32 @@ public class PlayerController : MonoBehaviour
             _scoreText.text = $"Score: {_score}";
     }
 
-
-    //[음식과 캐릭터 상호작용]
-    void CheckFallinFoods()
+    //몸체(즉, 머리 제외) 충돌-> 혹시나 머리 이외의 곳에 물체가 닿일 것을 고려함. 
+    void OnControllerColliderHit(ControllerColliderHit hit)
     {
-        // 1. 레이저 발사 위치와 방향 설정
-        Vector3 rayStart = transform.position + Vector3.up * 1.5f;
-        Vector3 look = Vector3.up;
-        float distance = 1f;
-        int mask = 1 << 8; // Food 레이어
-
-        Debug.DrawRay(rayStart, look * distance, Color.red, 0.1f);
-
-        RaycastHit hit;
-        //레이저가 mask를 감지하면
-        if (Physics.Raycast(rayStart, look, out hit, 1f, mask))
-        {
-            //태그 확인 후 파괴
-            if (hit.collider.CompareTag("Target"))
-            {
-                _score += 10;
-                Debug.Log($"Yum! 현재 점수: {_score}");
-                UpdateScoreUI(); //점수가 변하면 UI도 갱신
-                Destroy(hit.collider.gameObject);
-            }
-            else if (hit.collider.CompareTag("Avoid"))
-            {
-                _score -= Mathf.Max(0, _score - 5);  //점수가 음수가 되지않게
-                Debug.Log($"Oops! 현재 점수: {_score}");
-                UpdateScoreUI(); //점수가 변하면 UI도 갱신
-                Destroy(hit.collider.gameObject);
-            }
-        }
-
+        HandleCollection(hit.gameObject);
     }
 
-    
+    public void HandleCollection(GameObject go)
+    {
+        if (go == null)
+            return;
+        if(go.CompareTag("Target"))
+        {
+            _score += 10;
+            UpdateScoreUI();
+            Destroy(go);
+            Debug.Log("Target");
+        }
+        else if(go.CompareTag("Avoid"))
+        {
+            _score = Mathf.Max(0, _score - 5);
+            UpdateScoreUI();
+            Destroy(go);
+            Debug.Log("Avoid");
+        }
+    }
+
 
 
 }
