@@ -10,8 +10,8 @@ public class FoodSpawner : MonoBehaviour
     float _spawnInterval = 0.9f; //생성주기
 
     [SerializeField]
-    float _mapRangeX = 30f;
-    float _mapRangeZ = 30f;
+    float _mapRangeX = 25f;
+    float _mapRangeZ = 18f;
 
     private Transform _playerTransform; //플레이어 정보를 담아둠.
 
@@ -43,13 +43,13 @@ public class FoodSpawner : MonoBehaviour
         float finalX, finalZ;
         float chance = Random.Range(0f, 100f); //가능성
 
-        //70% 확률로 플레이어 주변 5m이내에 스폰
+        //40% 확률로 플레이어 주변 5m이내에 스폰
         if (_playerTransform != null || chance < 40f)
         {
             finalX = Random.Range(_playerTransform.position.x - 5f, _playerTransform.position.x + 5f);
             finalZ = Random.Range(_playerTransform.position.z - 5f, _playerTransform.position.z + 5f);
         }
-        //30% 확률로 맵 전체에 랜덤하게 스폰
+        //60% 확률로 맵 전체에 랜덤하게 스폰
         else
         {
             finalX = Random.Range(-_mapRangeX, _mapRangeX);
