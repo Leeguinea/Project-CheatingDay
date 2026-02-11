@@ -8,24 +8,39 @@ using UnityEngine;
  * [역할]
  * 1. InputManager에서 전달받은 입력 신호를 바탕으로 캐릭터를 "실제 이동"시킴.
  * 2. 음식과의 충돌을 판정함.
- * 3. 캐릭터의 상태(이동, 데미지 등)를 시각적으로 표현.
+ * 3. 점수 관리 및 UI 업데이트 요청.[나중에 분리] 
+ * [참조]
+ * CharacterController: 플레이어의 물리적 이동을 담당 
+ * PenaltySystem: 시간 경과에 따른 점수 감점 로직 담당
  */
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] float _speed = 10.0f;
-    [SerializeField] int _score = 0;
-    [SerializeField] float _rotationSpeed = 10.0f; 
+    [SerializeField] 
+    float _speed = 10.0f;
+
+    [SerializeField] 
+    int _score = 0;
+
+    [SerializeField] 
+    float _rotationSpeed = 10.0f;
+
+    [SerializeField]
+    TextMeshProUGUI _scoreText;
 
     Vector3 _gravityVelocity = Vector3.zero; // 누적될 중력 속도
-    [SerializeField] TextMeshProUGUI _scoreText;
 
+    //참조
     CharacterController _controller;
+    PenaltySystem _penalty;
 
     void Start()
     {
         Application.targetFrameRate = 60;
-        _controller = GetComponent<CharacterController>();
+
+        //참조
+        _controller = GetComponent<CharacterController>(); //키보드 입출력
+        _penalty = GetComponent<PenaltySystem>();
 
         // 중복 등록 방지
         if (Managers.Input != null)
@@ -68,6 +83,7 @@ public class PlayerController : MonoBehaviour
         _controller.Move((moveDir + _gravityVelocity) * Time.deltaTime);
     }
 
+    //[나중에 UIMangaer로 분리]
     void UpdateScoreUI()
     {
         if (_scoreText != null)
@@ -79,28 +95,35 @@ public class PlayerController : MonoBehaviour
         HandleCollection(hit.gameObject);
     }
 
+    //[Item 자체 혹은 Collector로 이동]
     public void HandleCollection(GameObject go)
     {
         if (go == null) return;
 
-        if (go.CompareTag("Target"))
+        if (go.CompareTag("Target") || go.CompareTag("Avoid"))
         {
-            _score += 10;
-            UpdateScoreUI();
-            Destroy(go);
-        }
-        else if (go.CompareTag("Avoid"))
-        {
-            _score -= 5;
-            UpdateScoreUI();
-            Destroy(go);
-        }
+            //어떤 아이템을 먹으면 패널티 타이머를 리셋시킴
+            if (_penalty != null)
+            {
+                _penalty.ResetPenaltyTimer();
+            }
 
-        if (_score < 0)
+            int scoreGain = go.CompareTag("Target") ? 10 : -5;
+            ChangeScore(scoreGain);
+            Destroy(go);
+        }
+    }
+
+    public void ChangeScore(int amount)
+    {
+        _score += amount;
+        UpdateScoreUI ();
+
+        //점수가 마이너스면 게임 오버 처리
+        if(_score < 0) 
         {
             GameManager gm = FindFirstObjectByType<GameManager>();
-
-            if (gm != null)
+            if (gm != null) 
             {
                 gm.EndGame(false);
             }
@@ -110,4 +133,5 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+    
 }

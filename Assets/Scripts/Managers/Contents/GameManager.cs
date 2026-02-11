@@ -43,6 +43,7 @@ public class GameManager : MonoBehaviour
     {
         isGameActive = false;
         timeRemaining = 0;
+
         if (timerText != null)
             timerText.text = "Victory!";
 
