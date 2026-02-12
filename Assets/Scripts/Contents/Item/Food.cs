@@ -6,7 +6,7 @@ public class Food : MonoBehaviour
     {
         if(collision.gameObject.CompareTag("Ground"))
         {
-            Debug.Log($"{collision.gameObject.name} ¹Ù´Ú¿¡ ´ê¾Æ {gameObject.name}ÀÌ ÆÄ±«µÇ¾ú´Ù.");
+            //Debug.Log($"{collision.gameObject.name} ¹Ù´Ú¿¡ ´ê¾Æ {gameObject.name}ÀÌ ÆÄ±«µÇ¾ú´Ù.");
             Destroy(gameObject);
         }
     }

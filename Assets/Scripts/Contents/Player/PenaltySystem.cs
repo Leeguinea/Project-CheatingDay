@@ -65,7 +65,6 @@ public class PenaltySystem : MonoBehaviour
         // 소수점 1자리까지 표시 (예: "Danger: 3.2s")
         _penaltyTimerText.text = $"{remaining:F1}s";
 
-        Debug.Log($"남은 시간 출력 중: {remaining:F1}");
         // 시간이 다 되면 빨간색, 평소엔 흰색으로 강조!
         _penaltyTimerText.color = (remaining <= 0) ? Color.red : Color.white;
     }
