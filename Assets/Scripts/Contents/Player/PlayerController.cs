@@ -4,7 +4,7 @@ using UnityEngine;
 
 /*
  * [용도]
- * 키보드로 게임 내 플레이어 캐릭터의 행동(이동, 충돌 처리 등)을 제어
+ * 키보드로 게임 내 플레이어 캐릭터의 "움직임"(이동, 충돌 처리 등)을 제어
  * [역할]
  * 1. InputManager에서 전달받은 입력 신호를 바탕으로 캐릭터를 "실제 이동"시킴.
  * 2. 음식과의 충돌을 판정함.
@@ -16,6 +16,21 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public enum PlayerState
+    {
+        Idle,
+        Move, 
+        Jump
+    }
+
+    private PlayerAnimator playerAnim;
+    private bool isGrounded;
+
+    private PlayerState _state = PlayerState.Idle;
+    private Vector3 _moveDir = Vector3.zero;
+
+    Vector3 _gravityVelocity = Vector3.zero; // 누적될 중력 속도   
+
     [SerializeField] 
     float _speed = 10.0f;
 
@@ -28,7 +43,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     TextMeshProUGUI _scoreText;
 
-    Vector3 _gravityVelocity = Vector3.zero; // 누적될 중력 속도
 
     //참조
     CharacterController _controller;
@@ -50,7 +64,77 @@ public class PlayerController : MonoBehaviour
         }
 
         UpdateScoreUI();
+        playerAnim = GetComponent<PlayerAnimator>();
     }
+
+    void Update()
+    {
+        isGrounded = _controller.isGrounded;
+        playerAnim.SetGrounded(isGrounded);
+
+        switch(_state)
+        {
+            case PlayerState.Idle: UpdateIdle(); break;
+            case PlayerState.Move: UpdateMove(); break;
+            case PlayerState.Jump: UpdateJump(); break;
+        }
+
+        if(isGrounded && _gravityVelocity.y < 0)
+        {
+            if (_state != PlayerState.Jump)
+                _gravityVelocity.y = -2f;
+        }
+        else
+        {
+            _gravityVelocity.y += -9.81f * Time.deltaTime;
+        }
+
+        _controller.Move((_moveDir + _gravityVelocity) * Time.deltaTime);   
+    }
+
+    void UpdateIdle()
+    {
+        playerAnim.SetSpeed(0);
+
+        if(_moveDir.magnitude > 0.1f)
+            _state = PlayerState.Move;
+
+        if(Input.GetButtonDown("Jump") && isGrounded)
+        {
+            JumpState();
+        }
+    }
+
+    void UpdateMove()
+    {
+        if(!Input.anyKey)
+        {
+            _moveDir = Vector3.zero;
+        }
+
+        playerAnim.SetSpeed(_moveDir.magnitude);
+
+        //멈추면 idle
+        if(_moveDir.magnitude <= 0.1f)
+            _state = PlayerState.Idle;
+
+        if (Input.GetButtonDown("Jump") && isGrounded)
+            JumpState();
+    }
+
+    void UpdateJump()
+    {
+        if (isGrounded && _gravityVelocity.y <= 0)
+            _state = PlayerState.Idle;
+    }
+
+    void JumpState()
+    {
+        _state = PlayerState.Jump;
+        _gravityVelocity.y = 7.0f;
+        playerAnim.TriggerJump();
+    }
+
 
     void OnKeyboard()
     {
@@ -61,26 +145,16 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKey(KeyCode.A)) dir += Vector3.left;
         if (Input.GetKey(KeyCode.D)) dir += Vector3.right;
 
-        Vector3 moveDir = Vector3.zero;
-
         if (dir.magnitude > 0.0001f)
         {
             dir = dir.normalized;
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), _rotationSpeed * Time.deltaTime);
-            moveDir = dir * _speed;
-        }
-
-        // 중력 로직 개선
-        if (_controller.isGrounded && _gravityVelocity.y < 0)
-        {
-            _gravityVelocity.y = -2f;
+            _moveDir = dir * _speed;
         }
         else
         {
-            _gravityVelocity.y += -9.81f * Time.deltaTime;
+            _moveDir = Vector3.zero;
         }
-
-        _controller.Move((moveDir + _gravityVelocity) * Time.deltaTime);
     }
 
     //[나중에 UIMangaer로 분리]
@@ -114,6 +188,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    //새로운 스크립트에 옮길 예정.
     public void ChangeScore(int amount)
     {
         _score += amount;

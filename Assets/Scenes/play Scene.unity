@@ -4463,7 +4463,6 @@ GameObject:
   m_Component:
   - component: {fileID: 827994770}
   - component: {fileID: 827994773}
-  - component: {fileID: 827994772}
   - component: {fileID: 827994771}
   m_Layer: 0
   m_Name: MinimapCamera
@@ -4531,14 +4530,6 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
---- !u!81 &827994772
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 827994769}
-  m_Enabled: 1
 --- !u!20 &827994773
 Camera:
   m_ObjectHideFlags: 0
@@ -7974,6 +7965,18 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1823488371442625490, guid: 4860fe114804547449c0ff4cbf30a9a8, type: 3}
   m_PrefabInstance: {fileID: 3957523796441456913}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1345422269
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1345422256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 173573fcb2d5a6a42b96e55f17b182b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerAnimator
 --- !u!1001 &1351468936
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12892,6 +12895,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2853454784189719314, guid: 4860fe114804547449c0ff4cbf30a9a8, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 0bb2f816ff8f00844bc9377b4ee44942, type: 2}
     - target: {fileID: 5006510672941135206, guid: 4860fe114804547449c0ff4cbf30a9a8, type: 3}
       propertyPath: m_Name
       value: Player
@@ -12913,6 +12920,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5006510672941135206, guid: 4860fe114804547449c0ff4cbf30a9a8, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1345422261}
+    - targetCorrespondingSourceObject: {fileID: 5006510672941135206, guid: 4860fe114804547449c0ff4cbf30a9a8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1345422269}
   m_SourcePrefab: {fileID: 100100000, guid: 4860fe114804547449c0ff4cbf30a9a8, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
