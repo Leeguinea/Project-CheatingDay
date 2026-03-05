@@ -108,7 +108,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -153,6 +153,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7bc48b1890f5a848b378d2506aba1b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Food
+  _pickupSound: {fileID: 8300000, guid: ffb159a21c8a04135a5616979c828fab, type: 3}
   Type: 1
 --- !u!114 &6796550094463674436
 MonoBehaviour:
