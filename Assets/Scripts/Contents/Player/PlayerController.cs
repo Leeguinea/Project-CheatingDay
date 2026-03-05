@@ -169,7 +169,7 @@ public class PlayerController : MonoBehaviour
             int scoreGain = go.CompareTag("Target") ? 10 : -5;
             ScoreManager.Instance.ChangeScore(scoreGain);
 
-            Destroy(go);
+            go.SetActive(false);
         }
     }
 

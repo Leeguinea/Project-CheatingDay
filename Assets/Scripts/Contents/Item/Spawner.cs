@@ -1,10 +1,10 @@
 using System.Collections;
 using UnityEngine;
 
-public class FoodSpawner : MonoBehaviour
+public class Spawner : MonoBehaviour
 {
     [SerializeField]
-    GameObject[] _foodPrefabs; //프리팹을 담을 배열
+    GameObject[] _Prefabs; //프리팹을 담을 배열
 
     [SerializeField]
     float _spawnInterval = 0.9f; //생성주기
@@ -21,7 +21,7 @@ public class FoodSpawner : MonoBehaviour
         if (player != null)
             _playerTransform = player.transform;
         else
-            Debug.LogWarning("FoodSpawner: 'Player'태그를 찾을 수 없어 랜덤 모드로만 작동");
+            Debug.LogWarning("Spawner: 'Player'태그를 찾을 수 없어 랜덤 모드로만 작동");
 
         StartCoroutine(SpawnRoutine()); 
     }
@@ -37,14 +37,14 @@ public class FoodSpawner : MonoBehaviour
     
     void SpawnFood()
     {
-        if (_foodPrefabs == null || _foodPrefabs.Length == 0)
+        if (_Prefabs == null || _Prefabs.Length == 0)
             return;
 
         float finalX, finalZ;
         float chance = Random.Range(0f, 100f); //가능성
 
         //40% 확률로 플레이어 주변 5m이내에 스폰
-        if (_playerTransform != null || chance < 40f)
+        if (_playerTransform != null && chance < 40f)
         {
             finalX = Random.Range(_playerTransform.position.x - 5f, _playerTransform.position.x + 5f);
             finalZ = Random.Range(_playerTransform.position.z - 5f, _playerTransform.position.z + 5f);
@@ -57,9 +57,12 @@ public class FoodSpawner : MonoBehaviour
         }
             
         Vector3 spawnPos = new Vector3(finalX, 17f, finalZ);
-        int randomIndex = Random.Range(0, _foodPrefabs.Length);
-        Instantiate(_foodPrefabs[randomIndex], spawnPos, Quaternion.identity); //Quaternion.identity: 회전값 없음
-        
+        int randomIndex = Random.Range(0, _Prefabs.Length);
+
+        GameObject item = PoolManager.Instance.GetItem(_Prefabs[randomIndex]);
+
+        item.transform.position = spawnPos;
+        item.transform.rotation = Quaternion.identity;
     }
 
 }
