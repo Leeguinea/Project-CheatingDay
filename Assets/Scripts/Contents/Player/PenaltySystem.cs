@@ -44,9 +44,9 @@ public class PenaltySystem : MonoBehaviour
 
             if (_timer >= 1.0f)
             {
-                if (_player != null)
+                if(ScoreManager.Instance != null)
                 {
-                    _player.ChangeScore(-_penaltyDamage);
+                    ScoreManager.Instance.ChangeScore(-_penaltyDamage);
                 }
                 _timer = 0f;
             }

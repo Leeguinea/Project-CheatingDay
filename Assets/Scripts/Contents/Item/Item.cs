@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Item : MonoBehaviour
+public class Food : MonoBehaviour
 {
     private void OnCollisionEnter(Collision collision)
     {

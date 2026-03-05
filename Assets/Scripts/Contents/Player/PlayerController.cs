@@ -35,14 +35,7 @@ public class PlayerController : MonoBehaviour
     float _speed = 10.0f;
 
     [SerializeField] 
-    int _score = 0;
-
-    [SerializeField] 
     float _rotationSpeed = 10.0f;
-
-    [SerializeField]
-    TextMeshProUGUI _scoreText;
-
 
     //참조
     CharacterController _controller;
@@ -63,7 +56,6 @@ public class PlayerController : MonoBehaviour
             Managers.Input.KeyAction += OnKeyboard;
         }
 
-        UpdateScoreUI();
         playerAnim = GetComponent<PlayerAnimator>();
     }
 
@@ -157,19 +149,13 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    //[나중에 UIMangaer로 분리]
-    void UpdateScoreUI()
-    {
-        if (_scoreText != null)
-            _scoreText.text = $"Score: {_score}";
-    }
 
     void OnControllerColliderHit(ControllerColliderHit hit)
     {
         HandleCollection(hit.gameObject);
     }
 
-    //[Item 자체 혹은 Collector로 이동]
+    //충돌
     public void HandleCollection(GameObject go)
     {
         if (go == null) return;
@@ -178,35 +164,14 @@ public class PlayerController : MonoBehaviour
         {
             //어떤 아이템을 먹으면 패널티 타이머를 리셋시킴
             if (_penalty != null)
-            {
                 _penalty.ResetPenaltyTimer();
-            }
 
             int scoreGain = go.CompareTag("Target") ? 10 : -5;
-            ChangeScore(scoreGain);
+            ScoreManager.Instance.ChangeScore(scoreGain);
+
             Destroy(go);
         }
     }
 
-    //새로운 스크립트에 옮길 예정.
-    public void ChangeScore(int amount)
-    {
-        _score += amount;
-        UpdateScoreUI ();
-
-        //점수가 마이너스면 게임 오버 처리
-        if(_score < 0) 
-        {
-            GameManager gm = FindFirstObjectByType<GameManager>();
-            if (gm != null) 
-            {
-                gm.EndGame(false);
-            }
-            else
-            {
-                Debug.LogError("씬에 GameManager가 없습니다.");
-            }
-        }
-    }
     
 }
