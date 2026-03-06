@@ -128,8 +128,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7bc48b1890f5a848b378d2506aba1b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Food
-  _pickupSound: {fileID: 8300000, guid: ffb159a21c8a04135a5616979c828fab, type: 3}
-  Type: 0
+  _targetSound: {fileID: 8300000, guid: 2c5292ba5cf254919a6b9e2b18e04f49, type: 3}
+  _AvoidSound: {fileID: 0}
+  type: 0
 --- !u!54 &1191586509792074014
 Rigidbody:
   m_ObjectHideFlags: 0

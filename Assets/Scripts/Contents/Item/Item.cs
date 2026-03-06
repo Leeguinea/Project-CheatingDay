@@ -3,10 +3,13 @@ using UnityEngine;
 public class Item : MonoBehaviour
 {
     [SerializeField]
-    private AudioClip _pickupSound;
+    private AudioClip _targetSound;
+
+    [SerializeField]
+    private AudioClip _AvoidSound;
 
     public enum ItemType { Target, Avoid }
-    public ItemType Type;
+    public ItemType type;
 
     //땅과 Item 충돌했을 때 비활성화
     private void OnCollisionEnter(Collision collision)
@@ -20,19 +23,14 @@ public class Item : MonoBehaviour
     //플레이어가 Item을 먹었을 때 효과음 재생
     private void OnTriggerEnter(Collider other)
     {
+        AudioClip clipToPlay = (type == ItemType.Target) ? _targetSound : _AvoidSound;
+
         if (other.CompareTag("Player"))
         {
             Debug.Log("플레이어 충돌 감지!"); 
-            SoundManager.Instance.PlaySFX(_pickupSound);
-            gameObject.SetActive(false);
+            SoundManager.Instance.PlaySFX(clipToPlay);
         }
+
+        gameObject.SetActive(false);
     }
-
-    void Deactivate() 
-    { 
-        gameObject.SetActive(false); 
-    }
-
-
-
 }
