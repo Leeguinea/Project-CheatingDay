@@ -37,7 +37,7 @@ public class Item : MonoBehaviour
     //플레이어가 Item을 먹었을 때 효과음 재생
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("트리거 감지됨: " + other.gameObject.name);
+        //Debug.Log("트리거 감지됨: " + other.gameObject.name);
         if (other.CompareTag("Player"))
         {
             AudioClip clipToPlay = (type == ItemType.Target) ? _targetSound : _AvoidSound;
@@ -47,9 +47,6 @@ public class Item : MonoBehaviour
             {
                 SoundManager.Instance.PlaySFX(clipToPlay);
             }
-            else
-                Debug.Log("플레이어는 아니지만 트리거가 발동됨");
-
             _isGrounded = false;
             gameObject.SetActive(false);
 

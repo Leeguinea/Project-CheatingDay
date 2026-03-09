@@ -26,6 +26,11 @@ public class ScoreManager : MonoBehaviour
         UpdateScoreUI();
     }
 
+    public int GetCurrentScore()
+    {
+        return _score;
+    }
+
     public void ChangeScore(int amount)
     {
         _score += amount;
@@ -51,5 +56,21 @@ public class ScoreManager : MonoBehaviour
         if (_scoreText != null)
             _scoreText.text = $"Score: {_score}";
     }
+
+    //최고 점수 업데이트 및 저장
+    public void UpdateBestScore(int currentScore)
+    {
+        //기존에 저장된 최고점수 불러오기(기본 값은 0)
+        int bestScore = PlayerPrefs.GetInt("BestScore", 0);
+
+        if(currentScore > bestScore) 
+        {
+            //현재 점수가 더 높으면 새로 저장
+            PlayerPrefs.SetInt("BestScore", currentScore);
+            PlayerPrefs.Save(); //저장
+            Debug.Log("최고점수갱신");
+        }
+    }
+
 
 }

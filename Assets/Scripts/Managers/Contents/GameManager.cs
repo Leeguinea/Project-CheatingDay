@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement; //재시작 기능을 위함.
+using UnityEngine.UI;
 
 /*
  * [역할]
@@ -9,13 +10,18 @@ using UnityEngine.SceneManagement; //재시작 기능을 위함.
  * 3. 게임 일시 정지 및 종료 처리
  */
 
-
 public class GameManager : MonoBehaviour
 {
+    [Header("UI References")]
     public TextMeshProUGUI timerText;
+    public GameObject resultPanel; //결과 패널
+    public TextMeshProUGUI finalScoreText;
+    public TextMeshProUGUI bestScoreText;
+
+    [Header("Game References")]
     public float timeRemaining = 60f;
     private bool isGameActive = true;
-
+    
     void Update()
     {
         if(isGameActive)
@@ -27,47 +33,51 @@ public class GameManager : MonoBehaviour
             }
             else 
             {
-                WinGame();
+                EndGame(true);
             }
         }
-
     }
 
     void UpdateTimerUI()
     {
-        if (timerText != null)
+        if(timerText != null)
             timerText.text = "Time:" + timeRemaining.ToString("F1"); 
     }
 
-    void WinGame()
-    {
-        isGameActive = false;
-        timeRemaining = 0;
-
-        if (timerText != null)
-            timerText.text = "Victory!";
-
-        //승리에도 게임 멈춤.
-        Time.timeScale = 0f;
-
-    }
-
+    //게임 종료
     public void EndGame(bool isWin)
     {
+        //이미 종료되었으면 리턴
+        if(!isGameActive)
+            return;
+
         isGameActive = false;
+        Time.timeScale = 0f;
 
-        if (isWin)
-        {
-            WinGame();
-        }
-        else
-        {
-            if (timerText != null)
-                timerText.text = "Game Over!";
+        //타이머 텍스트 변경
+        if(timerText != null)
+            timerText.text = isWin ? "Victory" : "Game Over!";
 
-            // 패배 시 게임 물리적 정지
-            Time.timeScale = 0f;
-        }
+        //결과창 비활성화
+        if(resultPanel != null)
+            resultPanel.SetActive(true);
+
+        //점수 처리(ScoreManager와 연동)
+        int currentScore = ScoreManager.Instance.GetCurrentScore();
+        ScoreManager.Instance.UpdateBestScore(currentScore);
+
+        //결과 UI 텍스트 업데이트
+        if(finalScoreText != null)
+            finalScoreText.text = $"Final Score: {currentScore}";
+
+        if(bestScoreText != null)
+            bestScoreText.text = $"Best Score: {PlayerPrefs.GetInt("BestScore", 0)}";
+    }
+
+    public void OnClickRestart()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
 }
