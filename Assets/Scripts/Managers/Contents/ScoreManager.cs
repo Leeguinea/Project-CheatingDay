@@ -51,6 +51,12 @@ public class ScoreManager : MonoBehaviour
         }
     }
 
+    public void SetScoreUIActive(bool active)
+    {
+        if(_scoreText != null)
+            _scoreText.gameObject.SetActive(active);
+    }
+
     void UpdateScoreUI()
     {
         if (_scoreText != null)

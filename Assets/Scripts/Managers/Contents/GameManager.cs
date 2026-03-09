@@ -2,26 +2,34 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement; //재시작 기능을 위함.
 using UnityEngine.UI;
+using System.Collections;
 
 /*
  * [역할]
  * 1. 게임 시간(60초) 관리 및 UI 업데이트
  * 2. 승리(시간 종료) 및 패배(점수 미달) 상태 제어
- * 3. 게임 일시 정지 및 종료 처리
+ * 3. 시작 전 UI 비활성화 및 카운트다운 후 활성화 처리
  */
 
 public class GameManager : MonoBehaviour
 {
     [Header("UI References")]
     public TextMeshProUGUI timerText;
-    public GameObject resultPanel; //결과 패널
+    public GameObject resultPanel;
+    public TextMeshProUGUI penaltyText;
     public TextMeshProUGUI finalScoreText;
     public TextMeshProUGUI bestScoreText;
+    public TextMeshProUGUI countdownText;
 
     [Header("Game References")]
     public float timeRemaining = 60f;
     private bool isGameActive = true;
-    
+
+    void Start()
+    {
+        StartCoroutine(StartGameRoutine());
+    }
+
     void Update()
     {
         if(isGameActive)
@@ -38,6 +46,40 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    //게임 시작(카운트 다운)
+    IEnumerator StartGameRoutine()
+    {
+        Time.timeScale = 0;
+        isGameActive = false;
+        countdownText.gameObject.SetActive(true);
+
+        if (timerText != null)
+            timerText.gameObject.SetActive(false);
+        if (penaltyText != null)
+            penaltyText.gameObject.SetActive(false);
+        ScoreManager.Instance.SetScoreUIActive(false);
+
+        for (int i = 3; i > 0; i--)
+        {
+            countdownText.text = i.ToString();
+            yield return new WaitForSecondsRealtime(1f);
+        }
+
+        countdownText.text = "START!";
+        yield return new WaitForSecondsRealtime(0.5f);
+
+        if (timerText != null) 
+            timerText.gameObject.SetActive(true);
+        if (penaltyText != null)
+            penaltyText.gameObject.SetActive(true);
+        ScoreManager.Instance.SetScoreUIActive(true);
+
+        countdownText.gameObject.SetActive(false);
+        isGameActive = true;
+        Time.timeScale = 1;
+    }
+
+    //??
     void UpdateTimerUI()
     {
         if(timerText != null)
