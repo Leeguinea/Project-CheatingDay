@@ -157,6 +157,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Item
   _targetSound: {fileID: 8300000, guid: 2c5292ba5cf254919a6b9e2b18e04f49, type: 3}
   _AvoidSound: {fileID: 0}
+  _lifeTime: 5
   type: 1
 --- !u!114 &-4552293444732757211
 MonoBehaviour:
