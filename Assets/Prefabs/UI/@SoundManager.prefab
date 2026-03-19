@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4424467740279368367}
   - component: {fileID: 3144966080016279267}
-  - component: {fileID: 2668136152953281068}
   m_Layer: 0
   m_Name: SFX
   m_TagString: Untagged
@@ -130,18 +129,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &2668136152953281068
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1301058409518194452}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d139384f90233347a24d3552b738ef8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SoundManager
 --- !u!1 &4687084229766968013
 GameObject:
   m_ObjectHideFlags: 0
@@ -185,7 +172,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 8949721277780146769, guid: d98ad38708f41f24fac408fd9bb1b947, type: 2}
   m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 8300000, guid: bea93a38b71b64b598109b3a3b1a0048, type: 3}
+  m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 0.28
   m_Pitch: 1
@@ -280,6 +267,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2303234417057681769}
+  - component: {fileID: 1291164803544417032}
   m_Layer: 0
   m_Name: '@SoundManager'
   m_TagString: Untagged
@@ -304,3 +292,16 @@ Transform:
   - {fileID: 4424467740279368367}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1291164803544417032
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6258629593044553055}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d139384f90233347a24d3552b738ef8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SoundManager
+  _mainMixer: {fileID: 24100000, guid: d98ad38708f41f24fac408fd9bb1b947, type: 2}
