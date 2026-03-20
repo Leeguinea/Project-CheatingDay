@@ -37,7 +37,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] 
     float _rotationSpeed = 10.0f;
 
-    //참조
     CharacterController _controller;
     PenaltySystem _penalty;
 
@@ -45,8 +44,8 @@ public class PlayerController : MonoBehaviour
     {
         Application.targetFrameRate = 60;
 
-        //참조
-        _controller = GetComponent<CharacterController>(); //키보드 입출력
+        ////키보드 입출력
+        _controller = GetComponent<CharacterController>(); 
         _penalty = GetComponent<PenaltySystem>();
 
         // 중복 등록 방지
@@ -82,6 +81,16 @@ public class PlayerController : MonoBehaviour
         }
 
         _controller.Move((_moveDir + _gravityVelocity) * Time.deltaTime);   
+    }
+
+    void OnDestroy()
+    {
+        //캐릭터가 파괴될 때(씬 전환 등의 상황) 이벤트 연결을 끊어줌.
+        //인게임 -> 메인화면 -> 인게임으로 돌아오는 과정에서 이동이 안되는 걸 방지하려고 넣음.
+        if (Managers.Input != null)
+        {
+            Managers.Input.KeyAction -= OnKeyboard;
+        }
     }
 
     void UpdateIdle()
@@ -173,5 +182,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    
     
 }
