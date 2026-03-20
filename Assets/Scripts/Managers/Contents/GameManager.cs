@@ -79,12 +79,13 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1;
     }
 
-    //??
+ 
     void UpdateTimerUI()
     {
         if(timerText != null)
             timerText.text = "Time:" + timeRemaining.ToString("F1"); 
     }
+
 
     //게임 종료
     public void EndGame(bool isWin)
@@ -95,6 +96,9 @@ public class GameManager : MonoBehaviour
 
         isGameActive = false;
         Time.timeScale = 0f;
+
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
 
         //타이머 텍스트 변경
         if(timerText != null)
@@ -116,10 +120,18 @@ public class GameManager : MonoBehaviour
             bestScoreText.text = $"Best Score: {PlayerPrefs.GetInt("BestScore", 0)}";
     }
 
+    //다시 시작용
     public void OnClickRestart()
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    //타이틀로 돌아가기용
+    public void OnClickGoToTitle()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(0);
     }
 
 }
