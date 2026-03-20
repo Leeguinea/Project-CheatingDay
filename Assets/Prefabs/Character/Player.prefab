@@ -1240,7 +1240,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17d5a7b64b9bb724687aaf979e98b60f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PenaltySystem
-  _penaltyCount: 5
+  _penaltyCount: 10
   _penaltyDamage: 1
   _penaltyTimerText: {fileID: 0}
 --- !u!114 &8777181259697930665

@@ -56,7 +56,7 @@ public class Item : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             // 땅에 닿으면 1초 뒤에 사라지게 함 
-            Invoke("ReturnToPool", 2.0f);
+            Invoke("ReturnToPool", 4.0f);
         }
     }
 

@@ -1572,6 +1572,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3564456460028775357}
   - component: {fileID: 4890284479230847536}
+  - component: {fileID: 8691943850712988295}
   m_Layer: 0
   m_Name: PlayerTitle
   m_TagString: Player
@@ -1614,7 +1615,7 @@ Animator:
   m_GameObject: {fileID: 7196655501122826664}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: b10fec9bba2b7eb4285c00cedd56af11, type: 3}
-  m_Controller: {fileID: 9100000, guid: 0bb2f816ff8f00844bc9377b4ee44942, type: 2}
+  m_Controller: {fileID: 9100000, guid: 86ccaf1af2d64844b8aaa94329134468, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
@@ -1626,6 +1627,33 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!54 &8691943850712988295
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7196655501122826664}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
 --- !u!1 &7344408990247970209
 GameObject:
   m_ObjectHideFlags: 0

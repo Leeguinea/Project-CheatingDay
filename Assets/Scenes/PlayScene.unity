@@ -14843,7 +14843,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1424749336478207078, guid: 4cae031a07032504aaf2f707a6aeb94d, type: 3}
       propertyPath: _score
-      value: 100
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1424749336478207078, guid: 4cae031a07032504aaf2f707a6aeb94d, type: 3}
       propertyPath: _scoreText
@@ -14949,10 +14949,6 @@ PrefabInstance:
     - target: {fileID: 5386852681222796812, guid: 4860fe114804547449c0ff4cbf30a9a8, type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 8462253017428481749, guid: 4860fe114804547449c0ff4cbf30a9a8, type: 3}
-      propertyPath: _penaltyCount
-      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8462253017428481749, guid: 4860fe114804547449c0ff4cbf30a9a8, type: 3}
       propertyPath: _penaltyTimerText
