@@ -36,7 +36,11 @@
 📂 Project Structure
 Plaintext
 Assets/Scripts/
+
 ├── Cameras/        # CameraController (SmoothDamp logic)
+
 ├── Managers/       # PoolManager (Singleton, Optimization)
+
 ├── Objects/        # Item, Enemy, Player logic
+
 └── UI/             # Game HUD & Menu Systems
